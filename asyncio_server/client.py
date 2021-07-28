@@ -17,7 +17,6 @@ async def tcp_echo_client():
 
     print(f'Send: {sequence}')
     writer.write(sequence)
-    print(111)
     await writer.drain()
 
     data = await reader.read(300)
