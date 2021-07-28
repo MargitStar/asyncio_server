@@ -3,9 +3,6 @@ import logging
 
 from random import randint, randbytes
 
-logging.basicConfig(level=logging.DEBUG)
-
-
 async def generate_sequence(number):
     begining = b'\xaa\xbb\xcc\xdd'
     ending = b'\xdd\xcc\xbb\xaa'

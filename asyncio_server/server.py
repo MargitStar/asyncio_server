@@ -1,8 +1,6 @@
 import asyncio
 import logging
 
-logging.basicConfig(level=logging.DEBUG)
-
 
 async def handle_echo(reader, writer):
     data = await reader.read(300)
