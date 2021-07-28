@@ -1,10 +1,10 @@
 import asyncio
 import logging
 
-chunk_size = 300
+CHUNK_SIZE = 300
 
 async def handle_echo(reader, writer):
-    data = await reader.read(chunk_size)
+    data = await reader.read(CHUNK_SIZE)
     addr = writer.get_extra_info('peername')
 
     logging.info(f"Received {data!r} from {addr!r}")
@@ -13,7 +13,7 @@ async def handle_echo(reader, writer):
     writer.close()
 
 
-async def server(host, port):
+async def run_server(host, port):
     server = await asyncio.start_server(
         handle_echo, host, port)
 

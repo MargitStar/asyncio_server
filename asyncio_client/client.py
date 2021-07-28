@@ -2,9 +2,8 @@ import asyncio
 import logging
 
 from random import randint, randbytes
-import random
 
-async def generate_sequence(size):
+async def generate_packet(size):
     begining = b'\xaa\xbb\xcc\xdd'
     ending = b'\xdd\xcc\xbb\xaa'
     sequence = begining + randbytes(size) + ending
@@ -14,7 +13,8 @@ async def tcp_echo_client(host, port):
     reader, writer = await asyncio.open_connection(
         host, port)
 
-    sequence = await generate_sequence(randint(0,255))
+    packet_size = randint(0,255)
+    sequence = await generate_packet(packet_size)
     logging.info(f'Send: {sequence}')
 
     writer.write(sequence)

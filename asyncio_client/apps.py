@@ -5,9 +5,12 @@ import random
 from client import tcp_echo_client
 from config import read_config
 
-async def run_server(port, host):
+async def send_packets(port, host):
     while True: 
-        await tcp_echo_client(port, host)
+        try: 
+            await tcp_echo_client(port, host)
+        except ConnectionRefusedError:
+            logging.error("Can't connect to server!")
         await asyncio.sleep(random.randint(1,5))
 
 async def main():
@@ -15,8 +18,8 @@ async def main():
     logging.basicConfig(level=logging.DEBUG)
 
     tasks = [
-        asyncio.create_task(run_server(config['port'], config['host']))
-        for connection in range(config['connections'])
+        asyncio.create_task(send_packets(config['port'], config['host']))
+        for _ in range(config['connections'])
     ]
-
+    
     await asyncio.wait(tasks)
