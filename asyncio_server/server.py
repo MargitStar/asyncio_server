@@ -1,26 +1,25 @@
 import asyncio
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+
 
 async def handle_echo(reader, writer):
     data = await reader.read(300)
     addr = writer.get_extra_info('peername')
 
-    print(f"Received {data!r} from {addr!r}")
+    logging.info(f"Received {data!r} from {addr!r}")
 
-    print(f"Send: {data!r}")
-    writer.write(data)
-    await writer.drain()
-
-    print("Close the connection")
+    logging.info("Close the connection")
     writer.close()
 
-async def main():
+
+async def server(host, port):
     server = await asyncio.start_server(
-        handle_echo, '127.0.0.1', 8888)
+        handle_echo, host, port)
 
     addr = server.sockets[0].getsockname()
-    print(f'Serving on {addr}')
+    logging.info(f'Serving on {addr}')
 
     async with server:
         await server.serve_forever()
-
-asyncio.run(main())
