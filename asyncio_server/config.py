@@ -11,6 +11,7 @@ class ReadConfigError(Exception):
 class AppConfig(BaseModel):
     host: str
     port: str
+    chunk_size: int
 
 
 def read_config(path):

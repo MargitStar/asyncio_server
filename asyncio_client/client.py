@@ -3,10 +3,10 @@ import logging
 
 from random import randint, randbytes
 
-async def generate_sequence(number):
+async def generate_sequence(size):
     begining = b'\xaa\xbb\xcc\xdd'
     ending = b'\xdd\xcc\xbb\xaa'
-    sequence = begining + randbytes(number) + ending
+    sequence = begining + randbytes(size) + ending
     return sequence
 
 async def tcp_echo_client(host, port):
