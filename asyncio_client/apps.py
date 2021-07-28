@@ -7,4 +7,4 @@ async def main():
     logging.basicConfig(level=logging.DEBUG)
 
     config = read_config('config.json')
-    await tcp_echo_client(config['port'], config['host'])
+    await tcp_echo_client(config['port'], config['host'], config['connections'])
