@@ -1,11 +1,13 @@
 import asyncio
 import logging
+from models import Packet
 
 CHUNK_SIZE = 300
 
 async def handle_echo(reader, writer):
     data = await reader.read(CHUNK_SIZE)
     addr = writer.get_extra_info('peername')
+    Packet.add(data)
 
     logging.info(f"Received {data!r} from {addr!r}")
 

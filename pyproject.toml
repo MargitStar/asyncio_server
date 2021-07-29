@@ -8,6 +8,7 @@ authors = ["MargitStar <sovenokbymargo@mail.ru>"]
 python = "^3.9"
 asyncio = "^3.4.3"
 SQLAlchemy = "^1.4.22"
+pydantic = "^1.8.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
