@@ -11,7 +11,8 @@ async def send_packets(port, host):
             await tcp_echo_client(port, host)
         except ConnectionRefusedError:
             logging.error("Can't connect to server!")
-        await asyncio.sleep(random.randint(1,5))
+        sleep_time = random.randint(1,5)
+        await asyncio.sleep(sleep_time)
 
 async def main():
     config = read_config('config.json')
