@@ -1,10 +1,10 @@
-from sqlalchemy import Column, String, Integer, TypeDecorator
+from sqlalchemy import Column, String, Integer
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 engine = create_engine(
-    'sqlite:///packets.sqlite'
+    'postgresql+psycopg2://margitstar:tiger@localhost/margitstar'
 )
 
 Session = sessionmaker(bind=engine)
@@ -26,6 +26,3 @@ class Packet(Base):
         session.add(pack)
         session.commit()
         return pack
-
-
-Base.metadata.create_all(engine)
