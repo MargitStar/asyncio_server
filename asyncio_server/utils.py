@@ -4,5 +4,5 @@ async def read_data(reader):
     return connection, data 
 
 def get_connection_number(connection):
-    connection = connection.replace(b'\n', b'')
+    connection = connection.strip()
     return connection.decode('utf-8')  
