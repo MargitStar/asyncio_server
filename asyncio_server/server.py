@@ -1,11 +1,11 @@
 import asyncio
 import logging
+from types import WrapperDescriptorType
 from models import Packet
 
-CHUNK_SIZE = 300
 
 async def handle_echo(reader, writer):
-    data = await reader.read(CHUNK_SIZE)
+    data = await reader.read()
     addr = writer.get_extra_info('peername')
     Packet.add(data)
 
