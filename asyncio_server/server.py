@@ -12,7 +12,7 @@ async def handle_echo(reader, writer):
     connection_number = get_connection_number(connection)
     
     logging.info(f"Received {data!r}")
-    Packet.add(packet=data, timestamp=datetime.now(), client_id=connection_number)
+    Packet.add(packet=data, timestamp=datetime.utcnow(), client_id=connection_number)
     logging.info("Close the connection")
 
 

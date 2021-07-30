@@ -3,7 +3,7 @@ import logging
 from random import randbytes, randint
 
 def convert_str_to_bytes(string):
-    return (str(string) + '\n').encode()
+    return f'{string}\n'.encode()
 
 async def generate_packet(size):
     begining = b'\xaa\xbb\xcc\xdd'
