@@ -3,23 +3,14 @@ import logging
 
 from random import randint, randbytes
 
-async def generate_packet(size):
-    begining = b'\xaa\xbb\xcc\xdd'
-    ending = b'\xdd\xcc\xbb\xaa'
-    sequence = begining + randbytes(size) + ending
-    return sequence
+from asyncio_client.utils import write_connection_number, write_sequence, close_connection
 
-async def tcp_echo_client(host, port):
+
+async def tcp_echo_client(host, port, connection):
     reader, writer = await asyncio.open_connection(
         host, port)
 
-    packet_size = randint(0,255)
-    sequence = await generate_packet(packet_size)
-    logging.info(f'Send: {sequence}')
-
-    writer.write(sequence)
-    await writer.drain()
-
-    logging.info('Connection closed!')
-    writer.close()
-    await writer.wait_closed()
+    await write_connection_number(writer, connection)
+    await write_sequence(writer)
+    await close_connection(writer)
+    

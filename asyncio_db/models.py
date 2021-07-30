@@ -14,13 +14,14 @@ class Packet(Base):
     id = Column(Integer, primary_key=True)
     packet = Column(String)
     timestamp = Column(DateTime)
+    client_id = Column(String)
 
     def __str__(self):
             return self.packet
 
     @classmethod
-    def add(cls, packet, timestamp):
-        pack = cls(packet=packet, timestamp=timestamp)
+    def add(cls, packet, timestamp, client_id):
+        pack = cls(packet=packet, timestamp=timestamp, client_id=client_id)
         session.add(pack)
         session.commit()
         return pack
