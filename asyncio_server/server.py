@@ -5,7 +5,7 @@ from models import Packet
 
 
 async def handle_echo(reader, writer):
-    data = await reader.read()
+    data = await reader.readuntil(b'\xdd\xcc\xbb\xaa')
     addr = writer.get_extra_info('peername')
     Packet.add(data)
 
