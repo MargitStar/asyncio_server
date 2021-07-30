@@ -2,8 +2,8 @@ import logging
 import asyncio
 import random 
 
-from client import tcp_echo_client
-from config import read_config
+from asyncio_client.client import tcp_echo_client
+from asyncio_client.config import read_config
 
 async def send_packets(port, host, connection):
     while True: 
