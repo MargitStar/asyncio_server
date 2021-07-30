@@ -1,5 +1,5 @@
 {
     "port": "127.0.0.1",
     "host": "8800",
-    "connections": 100
+    "connections": 2
   }
