@@ -1,7 +1,6 @@
 import asyncio
 import logging
-from types import WrapperDescriptorType
-from models import Packet
+from asyncio_db.models import Packet
 
 
 async def handle_echo(reader, writer):

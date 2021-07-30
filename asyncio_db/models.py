@@ -2,23 +2,12 @@ import os
 
 from sqlalchemy import Column, String, Integer
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+
+from asyncio_db.utils import create_session
 
 
-user = os.environ.get('USER')
-password = os.environ.get('PASSWORD')
-host = os.environ.get('HOST')
-db_name = os.environ.get('DB_NAME')
-
-engine = create_engine(
-    f'postgresql+psycopg2://{user}:{password}@{host}/{db_name}'
-)
-
-Session = sessionmaker(bind=engine)
-session = Session()
 Base = declarative_base()
-
+session = create_session()
 
 class Packet(Base):
     __tablename__ = 'packets'
