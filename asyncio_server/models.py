@@ -1,10 +1,18 @@
+import os
+
 from sqlalchemy import Column, String, Integer
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
+
+user = os.environ.get('USER')
+password = os.environ.get('PASSWORD')
+host = os.environ.get('HOST')
+db_name = os.environ.get('DB_NAME')
+
 engine = create_engine(
-    'postgresql+psycopg2://margitstar:tiger@localhost/margitstar'
+    f'postgresql+psycopg2://{user}:{password}@{host}/{db_name}'
 )
 
 Session = sessionmaker(bind=engine)
