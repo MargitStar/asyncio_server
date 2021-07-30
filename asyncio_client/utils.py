@@ -12,7 +12,6 @@ async def generate_packet(size):
     return sequence
 
 async def write_connection_number(writer, connection):
-    print(connection)
     writer.write(convert_str_to_bytes(connection))
 
 async def get_sequence():
