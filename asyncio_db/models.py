@@ -23,3 +23,11 @@ class Packet(Base):
         session.add(pack)
         session.commit()
         return pack
+
+    @classmethod
+    def all(cls):
+        return session.query(cls).all()
+
+    @classmethod
+    def filtered_by_client_id(cls, client_id):
+        return session.query(cls).filter_by(client_id=client_id).all()
