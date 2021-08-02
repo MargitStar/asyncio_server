@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>flask application</title>
+</head>
+<body>
+    {% for packet in packets %}
+        {{ packet.packet|title }}<br>
+    {% endfor %}
+</body>

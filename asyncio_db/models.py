@@ -23,3 +23,7 @@ class Packet(Base):
         session.add(pack)
         session.commit()
         return pack
+
+    @classmethod
+    def all(cls):
+        return session.query(cls).all()
