@@ -31,13 +31,3 @@ class Packet(Base):
     @classmethod
     def filtered_by_client_id(cls, client_id):
         return session.query(cls).filter_by(client_id=client_id).all()
-
-    @property
-    def serialize(self):
-       """Return object data in easily serializable format"""
-       return {
-           'id' : self.id,
-           'packet': self.packet,
-           'timestamp': self.timestamp,
-           'client_id': self.client_id
-       }
