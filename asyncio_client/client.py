@@ -3,7 +3,7 @@ import logging
 
 from random import randint
 
-from asyncio_client.utils import (write_connection_number, write_mp_sequence, write_sequence, close_connection, 
+from asyncio_client.utils import (write_connection_number, write_sequence, close_connection, 
     write_mp_start, write_mp_body, write_mp_end)
 
 async def tcp_echo_client(host, port, connection):
