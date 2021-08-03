@@ -1,7 +1,6 @@
 import asyncio
 import logging
 
-from random import randint, randbytes
 
 from asyncio_client.utils import write_connection_number, write_sequence, close_connection
 

@@ -3,16 +3,19 @@ import logging
 
 from datetime import datetime
 
-from asyncio_db.models import Packet
-from asyncio_server.utils import get_connection_number, read_data
+from asyncio_db.models import Packet, DataPacket
+from asyncio_server.utils import convert_data_to_string, read_data
       
 
 async def handle_echo(reader, writer):
-    connection, data = await read_data(reader)
-    connection_number = get_connection_number(connection)
+    connection, data, data_type = await read_data(reader)
+    connection_number = convert_data_to_string(connection)
+    data_type_str = convert_data_to_string(data_type)
     
     logging.info(f"Received {data!r}")
-    Packet.add(packet=data, timestamp=datetime.utcnow(), client_id=connection_number)
+    packet = Packet.add(type=data_type_str, timestamp=datetime.utcnow(), client_id=connection_number)
+    if data_type == "DP":
+        DataPacket.add(data=data, packet=packet)
     logging.info("Close the connection")
 
 
