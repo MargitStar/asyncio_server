@@ -14,7 +14,7 @@ async def handle_echo(reader, writer):
     
     logging.info(f"Received {data!r}")
     packet = Packet.add(type=data_type_str, timestamp=datetime.utcnow(), client_id=connection_number)
-    if data_type == "DP":
+    if data_type_str == "DP":
         DataPacket.add(data=data, packet=packet)
     logging.info("Close the connection")
 

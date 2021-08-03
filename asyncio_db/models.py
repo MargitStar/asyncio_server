@@ -14,9 +14,6 @@ class Packet(Base):
     type = Column(String)
     timestamp = Column(DateTime)
     client_id = Column(String)
-    # data_packet = relationship('DataPacket', back_populates='packet')
-    # multipart_packet = relationship('MultipartPacket', back_populates='packet')
-    # multipart_data_packet = relationship('Packet', back_populates='packet')
 
     def __str__(self):
             return self.packet
@@ -58,14 +55,7 @@ class MultipartPacket(Base):
     end_packet_id = Column(Integer, ForeignKey('packets.id'))
     start_packet = relationship('Packet', foreign_keys=[start_packet_id])
     end_packet = relationship('Packet', foreign_keys=[end_packet_id])
-    # multipart_data = relationship('MultipartData', back_populates='mp_packet')
 
-    # @classmethod
-    # def add(cls, data, packet):
-    #     data_packet = cls(data=data, packet=packet)
-    #     session.add(data_packet)
-    #     session.commit()
-    #     return data_packet
 
 
 class MultipartData(Base):
