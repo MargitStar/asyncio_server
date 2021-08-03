@@ -11,9 +11,9 @@ session = create_session()
 class Packet(Base):
     __tablename__ = 'packets'
     id = Column(Integer, primary_key=True)
-    type = Column(String)
-    timestamp = Column(DateTime)
-    client_id = Column(String)
+    type = Column(String, nullable=False)
+    timestamp = Column(DateTime, nullable=False)
+    client_id = Column(String, nullable=False)
 
     def __str__(self):
             return self.packet
@@ -37,8 +37,8 @@ class Packet(Base):
 class DataPacket(Base):
     __tablename__ = 'data_packets'
     id = Column(Integer, primary_key=True)
-    packet_id = Column(Integer, ForeignKey('packets.id'))
-    data = Column(String)
+    packet_id = Column(Integer, ForeignKey('packets.id'), nullable=False)
+    data = Column(String, nullable=False)
     packet = relationship('Packet')
 
     @classmethod
@@ -51,8 +51,8 @@ class DataPacket(Base):
 class MultipartPacket(Base):
     __tablename__ = 'multipart_packets'
     id = Column(Integer, primary_key=True)
-    start_packet_id = Column(Integer, ForeignKey('packets.id'))
-    end_packet_id = Column(Integer, ForeignKey('packets.id'))
+    start_packet_id = Column(Integer, ForeignKey('packets.id'), nullable=False)
+    end_packet_id = Column(Integer, ForeignKey('packets.id'), nullable=False)
     start_packet = relationship('Packet', foreign_keys=[start_packet_id])
     end_packet = relationship('Packet', foreign_keys=[end_packet_id])
 
@@ -61,10 +61,10 @@ class MultipartPacket(Base):
 class MultipartData(Base):
     __tablename__ = 'multipart_data'
     id = Column(Integer, primary_key=True)
-    mp_packet_id = Column(Integer, ForeignKey('multipart_packets.id'))
-    packet_id = Column(Integer, ForeignKey('packets.id'))
-    data = Column(String)
-    idx = Column(Integer)
+    mp_packet_id = Column(Integer, ForeignKey('multipart_packets.id'), nullable=False)
+    packet_id = Column(Integer, ForeignKey('packets.id'), nullable=False)
+    data = Column(String, nullable=False)
+    idx = Column(Integer, nullable=False)
     packet = relationship('Packet')
     mp_packet = relationship('MultipartPacket')
 
