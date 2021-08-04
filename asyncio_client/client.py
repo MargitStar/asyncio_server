@@ -7,7 +7,7 @@ from enum import Enum
 from asyncio_client.utils import (DataPacket, MultipartPacket, close_connection, write_connection_number)
 
 
-class Types(str, Enum):
+class PacketTypes(str, Enum):
     DATA = 'DataPacket'
     MULTIPART = 'MultipartPacket'
 
@@ -19,16 +19,14 @@ async def write_data_packet_sequence(writer):
 async def write_mutipart_packet_sequence(writer):
     packets_amount, packet_size = randint(1,32) ,randint(0,256)
     packet = MultipartPacket(packets_amount, packet_size, writer)
-    await packet.write_mp_start()
-    await packet.write_mp_body()
-    await packet.write_mp_end()
+    await packet.write_sequence()
 
 async def write_client(writer, connection):
-    data_choice = choice([Types.DATA, Types.MULTIPART])
-    await write_connection_number(writer, connection)
-    if data_choice == Types.DATA:
+    data_choice = choice([PacketTypes.DATA, PacketTypes.MULTIPART])
+    write_connection_number(writer, connection)
+    if data_choice == PacketTypes.DATA:
         await write_data_packet_sequence(writer)
-    elif data_choice == Types.MULTIPART:
+    elif data_choice == PacketTypes.MULTIPART:
         await write_mutipart_packet_sequence(writer)
 
 
