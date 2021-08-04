@@ -13,7 +13,7 @@ class Packet(Base):
     id = Column(Integer, primary_key=True)
     type = Column(String, nullable=False)
     timestamp = Column(DateTime, nullable=False)
-    client_id = Column(String, nullable=False)
+    client_id = Column(Integer, nullable=False)
 
     def __str__(self):
             return self.packet
