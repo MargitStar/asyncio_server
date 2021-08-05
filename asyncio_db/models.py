@@ -8,6 +8,7 @@ from asyncio_db.utils import create_session
 Base = declarative_base()
 session = create_session()
 
+
 class Packet(Base):
     __tablename__ = 'packets'
     id = Column(Integer, primary_key=True)
@@ -16,7 +17,7 @@ class Packet(Base):
     client_id = Column(Integer, nullable=False)
 
     def __str__(self):
-            return self.packet
+        return self.packet
 
     @classmethod
     def add(cls, type, timestamp, client_id):
@@ -48,6 +49,7 @@ class DataPacket(Base):
         session.commit()
         return data_packet
 
+
 class MultipartPacket(Base):
     __tablename__ = 'multipart_packets'
     id = Column(Integer, primary_key=True)
@@ -64,16 +66,15 @@ class MultipartPacket(Base):
         return mp_data_packet
 
 
-
 class MultipartData(Base):
     __tablename__ = 'multipart_data'
     id = Column(Integer, primary_key=True)
-    mp_packet_id = Column(Integer, ForeignKey('multipart_packets.id'), nullable=False)
+    mp_packet_id = Column(
+        Integer,
+        ForeignKey('multipart_packets.id'),
+        nullable=False)
     packet_id = Column(Integer, ForeignKey('packets.id'), nullable=False)
     data = Column(String, nullable=False)
     idx = Column(Integer, nullable=False)
     packet = relationship('Packet')
     mp_packet = relationship('MultipartPacket')
-
-
-

@@ -5,10 +5,11 @@ from enum import Enum
 
 from asyncio_server.utils import read_data, DataPacketParser, MultipartDataParser, DataParser
 
+
 class DataType(str, Enum):
     MULTIPART = 'MPS'
     DATA = 'DTP'
-      
+
 
 async def handle_echo(reader, writer):
     data = await read_data(reader)

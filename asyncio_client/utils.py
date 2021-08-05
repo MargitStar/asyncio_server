@@ -2,6 +2,7 @@ import logging
 
 from random import randbytes, randint
 
+
 def convert_str_to_bytes(string):
     return string.encode()
 
@@ -61,7 +62,7 @@ class MultipartPacket:
 
     async def write_mp_end(self):
         end_sequence = self.generate_mp_end_packet()
-        self.writer.write(end_sequence)  
+        self.writer.write(end_sequence)
 
     async def write_sequence(self):
         await self.write_mp_start()
