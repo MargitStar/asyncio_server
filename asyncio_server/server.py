@@ -10,16 +10,22 @@ class DataType(str, Enum):
     MULTIPART = 'MPS'
     DATA = 'DTP'
 
+def make_parser(data):
+    data_parser = DataParser(data)
+    data_type = data_parser.parse_data_type()
+    if data_type == DataType.DATA:
+        parser = DataPacketParser(data)
+    elif data_type == DataType.MULTIPART:
+        parser = MultipartDataParser(data)
+    else:
+        raise ValueError(f'{data_type} is wrong data type!')
+    return parser
+
 
 async def handle_echo(reader, writer):
     data = await read_data(reader)
-    data_parser = DataParser(data)
-    if data_parser.parse_data_type() == DataType.DATA:
-        parser = DataPacketParser(data)
-        parser.write_to_db()
-    elif data_parser.parse_data_type() == DataType.MULTIPART:
-        parser = MultipartDataParser(data)
-        parser.write_to_db()
+    parser = make_parser(data)
+    parser.write_to_db()
     logging.info(f"Received {data!r}")
     logging.info("Close the connection")
 
