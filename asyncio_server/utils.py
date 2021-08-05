@@ -3,6 +3,7 @@ from datetime import datetime
 
 from asyncio_db.models import Packet, DataPacket, MultipartPacket, MultipartData
 
+
 class DelimiterType(bytes, Enum):
     INTERMEDIATE = b'MPB'
     END = b'MPE'
@@ -12,8 +13,10 @@ async def read_data(reader):
     data = await reader.read()
     return data
 
+
 def convert_data_to_string(connection):
     return connection.decode('utf-8')
+
 
 def convert_data_to_int(number):
     return int.from_bytes(number)
@@ -36,23 +39,29 @@ class DataPacketParser(DataParser):
 
     def write_to_db(self):
         client_id = self.parse_connection_number()
-        packet = Packet.add(type=self.parse_data_type(), timestamp=datetime.utcnow(), client_id=client_id)
+        packet = Packet.add(
+            type=self.parse_data_type(),
+            timestamp=datetime.utcnow(),
+            client_id=client_id)
         DataPacket.add(data=self.get_dtp_data(), packet=packet)
 
 
 class MultipartDataParser(DataParser):
     def parse_packet_amount(self):
         return int(convert_data_to_string(self.data[7:11]))
-    
+
     def parse_packets(self):
-        packet_data = self.data[11:].rstrip(DelimiterType.END).split(DelimiterType.INTERMEDIATE)
+        packet_data = self.data[11:].rstrip(
+            DelimiterType.END).split(DelimiterType.INTERMEDIATE)
         packet_data.remove(b'')
         return packet_data
-        
-    
+
     def write_to_db(self):
         client_id = self.parse_connection_number()
-        start_packet = Packet.add(type=self.parse_data_type(), timestamp=datetime.utcnow(), client_id=client_id)
+        start_packet = Packet.add(
+            type=self.parse_data_type(),
+            timestamp=datetime.utcnow(),
+            client_id=client_id)
         packet_amount = self.parse_packet_amount()
         saved_packets = [
             Packet.add(
@@ -62,9 +71,18 @@ class MultipartDataParser(DataParser):
             )
             for _ in range(packet_amount)
         ]
-        end_packet = Packet.add(type=convert_data_to_string(DelimiterType.END), timestamp=datetime.utcnow(), client_id=client_id)
-        multipart_packet = MultipartPacket.add(start_packet=start_packet, end_packet=end_packet)
+        end_packet = Packet.add(
+            type=convert_data_to_string(
+                DelimiterType.END),
+            timestamp=datetime.utcnow(),
+            client_id=client_id)
+        multipart_packet = MultipartPacket.add(
+            start_packet=start_packet, end_packet=end_packet)
 
         packets = self.parse_packets()
         for idx, packet in enumerate(packets):
-            MultipartData.add(data=packet, idx=idx+1, packet=saved_packets[idx], mp_packet=multipart_packet)
+            MultipartData.add(
+                data=packet,
+                idx=idx + 1,
+                packet=saved_packets[idx],
+                mp_packet=multipart_packet)
