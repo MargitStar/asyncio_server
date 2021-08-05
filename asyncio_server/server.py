@@ -1,17 +1,24 @@
 import asyncio
 import logging
 
-from datetime import datetime
+from enum import Enum
 
-from asyncio_db.models import Packet, DataPacket
-from asyncio_server.utils import read_data, parse_connection_number, get_packets_amount, get_dtp_data
+from asyncio_server.utils import read_data, DataPacketParser, MultipartDataParser, DataParser
+
+class DataType(str, Enum):
+    MULTIPART = 'MPS'
+    DATA = 'DTP'
       
 
 async def handle_echo(reader, writer):
     data = await read_data(reader)
-    connection_number, data_type = parse_connection_number(data)
-    if data_type == 'DTP':
-        recived_data = get_dtp_data(data)
+    data_parser = DataParser(data)
+    if data_parser.parse_data_type() == DataType.DATA:
+        parser = DataPacketParser(data)
+        parser.write_to_db()
+    elif data_parser.parse_data_type() == DataType.MULTIPART:
+        parser = MultipartDataParser(data)
+        parser.write_to_db()
     logging.info(f"Received {data!r}")
     logging.info("Close the connection")
 
