@@ -19,7 +19,9 @@ class PacketTypes(str, Enum):
 def write_data_packet_sequence(writer):
     packet_size = randint(0, 256)
     packet = DataPacket(packet_size, writer)
-    packet.write_sequence()
+    sequence = packet.generate_dp_packet()
+    logging.info(f'Send: {sequence}')
+    packet.write_sequence(sequence)
 
 
 def write_mutipart_packet_sequence(writer):

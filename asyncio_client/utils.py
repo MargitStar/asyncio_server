@@ -30,9 +30,7 @@ class DataPacket:
     def generate_dp_packet(self):
         return b'DTP' + randbytes(self.packet_size)
 
-    def write_sequence(self):
-        sequence = self.generate_dp_packet()
-        logging.info(f'Send: {sequence}')
+    def write_sequence(self, sequence):
         self.writer.write(sequence)
 
 
