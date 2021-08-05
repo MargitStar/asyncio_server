@@ -51,7 +51,6 @@ class MultipartDataParser(DataParser):
         
     
     def write_to_db(self):
-        pack = []
         client_id = self.parse_connection_number()
         start_packet = Packet.add(type=self.parse_data_type(), timestamp=datetime.utcnow(), client_id=client_id)
         packet_amount = self.parse_packet_amount()

@@ -30,7 +30,7 @@ class DataPacket:
     def generate_dp_packet(self):
         return b'DTP' + randbytes(self.packet_size)
 
-    async def write_sequence(self):
+    def write_sequence(self):
         sequence = self.generate_dp_packet()
         logging.info(f'Send: {sequence}')
         self.writer.write(sequence)
@@ -51,20 +51,20 @@ class MultipartPacket:
     def generate_mp_end_packet(self):
         return 'MPE'.encode()
 
-    async def write_mp_start(self):
+    def write_mp_start(self):
         start_sequence = self.generate_mp_start_packet()
         self.writer.write(start_sequence)
 
-    async def write_mp_body(self):
+    def write_mp_body(self):
         for _ in range(self.packets_amount):
             body_sequence = self.generate_mp_body_packet()
             self.writer.write(body_sequence)
 
-    async def write_mp_end(self):
+    def write_mp_end(self):
         end_sequence = self.generate_mp_end_packet()
         self.writer.write(end_sequence)
 
-    async def write_sequence(self):
-        await self.write_mp_start()
-        await self.write_mp_body()
-        await self.write_mp_end()
+    def write_sequence(self):
+        self.write_mp_start()
+        self.write_mp_body()
+        self.write_mp_end()
