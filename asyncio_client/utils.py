@@ -55,7 +55,7 @@ class MultipartPacket:
         self.writer.write(start_sequence)
 
     async def write_mp_body(self):
-        for _ in range(self.packet_size):
+        for _ in range(self.packets_amount):
             body_sequence = self.generate_mp_body_packet()
             self.writer.write(body_sequence)
 
