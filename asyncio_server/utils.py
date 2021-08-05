@@ -44,7 +44,7 @@ class MultipartDataParser(DataParser):
         return int(convert_data_to_string(self.data[7:11]))
     
     def parse_packets(self):
-        packet_data = self.data[11:].strip(DelimiterType.END).split(DelimiterType.INTERMEDIATE)
+        packet_data = self.data[11:].rstrip(DelimiterType.END).split(DelimiterType.INTERMEDIATE)
         packet_data.remove(b'')
         return packet_data
         
