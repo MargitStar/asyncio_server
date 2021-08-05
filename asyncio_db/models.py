@@ -78,3 +78,10 @@ class MultipartData(Base):
     idx = Column(Integer, nullable=False)
     packet = relationship('Packet')
     mp_packet = relationship('MultipartPacket')
+
+    @classmethod
+    def add(cls, data, idx, packet, mp_packet):
+        mp_data_packet = cls(data=data, idx=idx, packet=packet, mp_packet=mp_packet)
+        session.add(mp_data_packet)
+        session.commit()
+        return mp_data_packet

@@ -1,7 +1,7 @@
 from enum import Enum
 from datetime import datetime
 
-from asyncio_db.models import Packet, DataPacket, MultipartPacket
+from asyncio_db.models import Packet, DataPacket, MultipartPacket, MultipartData
 
 class DelimiterType(bytes, Enum):
     INTERMEDIATE = b'MPB'
@@ -35,7 +35,8 @@ class DataPacketParser(DataParser):
         return self.data[7:]
 
     def write_to_db(self):
-        packet = Packet.add(type=self.parse_data_type(), timestamp=datetime.utcnow(), client_id=self.parse_connection_number())
+        client_id = self.parse_connection_number()
+        packet = Packet.add(type=self.parse_data_type(), timestamp=datetime.utcnow(), client_id=client_id)
         DataPacket.add(data=self.get_dtp_data(), packet=packet)
 
 
@@ -50,10 +51,15 @@ class MultipartDataParser(DataParser):
         
     
     def write_to_db(self):
+        pack = []
         client_id = self.parse_connection_number()
         start_packet = Packet.add(type=self.parse_data_type(), timestamp=datetime.utcnow(), client_id=client_id)
         packet_amount = self.parse_packet_amount()
         for _ in range(packet_amount):
-            Packet.add(type=convert_data_to_string(DelimiterType.INTERMEDIATE), timestamp=datetime.utcnow(), client_id=client_id)
+            pack.append(Packet.add(type=convert_data_to_string(DelimiterType.INTERMEDIATE), timestamp=datetime.utcnow(), client_id=client_id))
         end_packet = Packet.add(type=convert_data_to_string(DelimiterType.END), timestamp=datetime.utcnow(), client_id=client_id)
-        MultipartPacket.add(start_packet=start_packet, end_packet=end_packet)
+        multipart_packet = MultipartPacket.add(start_packet=start_packet, end_packet=end_packet)
+
+        packets = self.parse_packets()
+        for n in range(packet_amount):
+            MultipartData.add(data=packets[n], idx=n+1, packet=pack[n], mp_packet=multipart_packet)
