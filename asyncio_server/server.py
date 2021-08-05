@@ -10,9 +10,10 @@ class DataType(str, Enum):
     MULTIPART = 'MPS'
     DATA = 'DTP'
 
+
 def make_parser(data):
     data_parser = DataParser(data)
-    data_type = data_parser.parse_data_type()
+    data_type = data_parser.data_type
     if data_type == DataType.DATA:
         parser = DataPacketParser(data)
     elif data_type == DataType.MULTIPART:
