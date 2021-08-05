@@ -55,11 +55,17 @@ class MultipartDataParser(DataParser):
         client_id = self.parse_connection_number()
         start_packet = Packet.add(type=self.parse_data_type(), timestamp=datetime.utcnow(), client_id=client_id)
         packet_amount = self.parse_packet_amount()
-        for _ in range(packet_amount):
-            pack.append(Packet.add(type=convert_data_to_string(DelimiterType.INTERMEDIATE), timestamp=datetime.utcnow(), client_id=client_id))
+        saved_packets = [
+            Packet.add(
+                type=convert_data_to_string(DelimiterType.INTERMEDIATE),
+                timestamp=datetime.utcnow(),
+                client_id=client_id,
+            )
+            for _ in range(packet_amount)
+        ]
         end_packet = Packet.add(type=convert_data_to_string(DelimiterType.END), timestamp=datetime.utcnow(), client_id=client_id)
         multipart_packet = MultipartPacket.add(start_packet=start_packet, end_packet=end_packet)
 
         packets = self.parse_packets()
-        for n in range(packet_amount):
-            MultipartData.add(data=packets[n], idx=n+1, packet=pack[n], mp_packet=multipart_packet)
+        for idx, packet in enumerate(packets):
+            MultipartData.add(data=packet, idx=idx+1, packet=saved_packets[idx], mp_packet=multipart_packet)
