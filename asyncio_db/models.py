@@ -56,6 +56,13 @@ class MultipartPacket(Base):
     start_packet = relationship('Packet', foreign_keys=[start_packet_id])
     end_packet = relationship('Packet', foreign_keys=[end_packet_id])
 
+    @classmethod
+    def add(cls, start_packet, end_packet):
+        mp_data_packet = cls(start_packet=start_packet, end_packet=end_packet)
+        session.add(mp_data_packet)
+        session.commit()
+        return mp_data_packet
+
 
 
 class MultipartData(Base):

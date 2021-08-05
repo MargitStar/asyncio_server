@@ -1,7 +1,7 @@
 from enum import Enum
 from datetime import datetime
 
-from asyncio_db.models import Packet, DataPacket
+from asyncio_db.models import Packet, DataPacket, MultipartPacket
 
 class DelimiterType(str, Enum):
     INTERMEDIATE = 'MPB'
@@ -51,8 +51,9 @@ class MultipartDataParser(DataParser):
     
     def write_to_db(self):
         client_id = self.parse_connection_number()
-        Packet.add(type=self.parse_data_type(), timestamp=datetime.utcnow(), client_id=client_id)
+        start_packet = Packet.add(type=self.parse_data_type(), timestamp=datetime.utcnow(), client_id=client_id)
         packet_amount = self.parse_packet_amount()
         for _ in range(packet_amount):
             Packet.add(type=DelimiterType.INTERMEDIATE, timestamp=datetime.utcnow(), client_id=client_id)
-        Packet.add(type=DelimiterType.END, timestamp=datetime.utcnow(), client_id=client_id)
+        end_packet = Packet.add(type=DelimiterType.END, timestamp=datetime.utcnow(), client_id=client_id)
+        MultipartPacket.add(start_packet=start_packet, end_packet=end_packet)
