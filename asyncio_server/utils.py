@@ -20,8 +20,8 @@ def convert_data_to_string(connection):
 
 
 class DataParser:
-    connection_number = IntField(offset=slice(0,4))
-    data_type = StringField(offset=slice(4,7))
+    connection_number = IntField(offset=slice(0, 4))
+    data_type = StringField(offset=slice(4, 7))
 
     def __init__(self, data):
         self.data = data
@@ -40,7 +40,7 @@ class DataPacketParser(DataParser):
 
 
 class MultipartDataParser(DataParser):
-    packet_amount = IntField(offset=slice(7,11))
+    packet_amount = IntField(offset=slice(7, 11))
 
     def parse_packets(self):
         packet_data = self.data[11:].rstrip(
