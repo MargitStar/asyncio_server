@@ -13,7 +13,7 @@ SQLAlchemy = "^1.4.22"
 
 [package.source]
 type = "directory"
-url = "../asyncio_db"
+url = "../asyncio-db"
 
 [[package]]
 name = "click"
@@ -160,7 +160,7 @@ watchdog = ["watchdog"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "4c29a56eb660c0b208a771ad2a5b0e13c4144c862acf8749de8ad36f1c2b3d77"
+content-hash = "93e051fa0f476399619ed9d6d4818fe6ca85df1ef8a496fd1c92311d77bef5a0"
 
 [metadata.files]
 asyncio-db = []

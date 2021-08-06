@@ -6,9 +6,9 @@ authors = ["MargitStar <sovenokbymargo@mail.ru>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-asyncio-db = {path = "../asyncio_db"}
 marshmallow = "^3.13.0"
 Flask = "^2.0.1"
+asyncio-db = {path = "../asyncio-db"}
 
 [tool.poetry.dev-dependencies]
 

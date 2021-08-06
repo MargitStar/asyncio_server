@@ -21,7 +21,7 @@ SQLAlchemy = "^1.4.22"
 
 [package.source]
 type = "directory"
-url = "../asyncio_db"
+url = "../asyncio-db"
 
 [[package]]
 name = "greenlet"
@@ -99,7 +99,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "30bccfb07c8b7e20c3793fa282f25e4fd5190673b56b111fec553b6d17a2ad0e"
+content-hash = "5b8c339478c190b26adfe779a97177ddc39109553d9805e86158bc368ed0716f"
 
 [metadata.files]
 asyncio = [
