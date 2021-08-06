@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "asyncio_server"
+name = "asyncio-server"
 version = "0.1.0"
 description = ""
 authors = ["MargitStar <sovenokbymargo@mail.ru>"]
