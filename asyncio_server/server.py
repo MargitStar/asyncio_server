@@ -1,18 +1,33 @@
 import asyncio
 import logging
 
-from datetime import datetime
+from enum import Enum
 
-from asyncio_db.models import Packet
-from asyncio_server.utils import get_connection_number, read_data
-      
+from asyncio_server.utils import read_data, DataPacketParser, MultipartDataParser, DataParser
+
+
+class DataType(str, Enum):
+    MULTIPART = 'MPS'
+    DATA = 'DTP'
+
+
+def make_parser(data):
+    data_parser = DataParser(data)
+    data_type = data_parser.data_type
+    if data_type == DataType.DATA:
+        parser = DataPacketParser(data)
+    elif data_type == DataType.MULTIPART:
+        parser = MultipartDataParser(data)
+    else:
+        raise ValueError(f'{data_type} is wrong data type!')
+    return parser
+
 
 async def handle_echo(reader, writer):
-    connection, data = await read_data(reader)
-    connection_number = get_connection_number(connection)
-    
+    data = await read_data(reader)
+    parser = make_parser(data)
+    parser.write_to_db()
     logging.info(f"Received {data!r}")
-    Packet.add(packet=data, timestamp=datetime.utcnow(), client_id=connection_number)
     logging.info("Close the connection")
 
 

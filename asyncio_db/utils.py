@@ -3,6 +3,7 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
+
 def get_env_vars():
     user = os.environ.get('USER')
     password = os.environ.get('PASSWORD')
@@ -16,6 +17,7 @@ def create_engine_psql():
     return create_engine(
         f'postgresql+psycopg2://{user}:{password}@{host}/{db_name}'
     )
+
 
 def create_session():
     engine = create_engine_psql()
