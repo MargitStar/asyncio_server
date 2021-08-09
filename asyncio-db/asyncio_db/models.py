@@ -36,6 +36,10 @@ class Packet(Base):
     def filtered_by_client_id(cls, client_id):
         return session.query(cls).filter_by(client_id=client_id).all()
 
+    @classmethod
+    def get_by_id(cls, id):
+        return session.query(cls).filter_by(id=id).first()
+
 
 class DataPacket(Base):
     __tablename__ = 'data_packets'

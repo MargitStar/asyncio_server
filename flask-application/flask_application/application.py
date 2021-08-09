@@ -7,36 +7,36 @@ from flask_application.utils import PacketSchema, DataPacketSchema, MultipartDat
 app = Flask(__name__)
 
 
-@app.route('/api/dtp/packets/')
-def packets_list_dtp_view():
+@app.route('/api/packet/')
+def packet_list_view():
+    packets = Packet.all()
+    packet_schema = PacketSchema()
+    return jsonify([packet_schema.dump(packet) for packet in packets])
+
+
+@app.route('/api/packet/<int:id>/')
+def packet_view(id):
+    packet = Packet.get_by_id(id)
+    packet_schema = PacketSchema()
+    return jsonify(packet_schema.dump(packet))
+
+
+@app.route('/api/dp/')
+def packet_list_dp_view():
     data_packets = DataPacket.all()
     data_schema = DataPacketSchema()
     return jsonify([data_schema.dump(data_packet) for data_packet in data_packets])
 
 
-@app.route('/api/mp/packets/')
-def packets_list_mp_view():
-    mp_packets = MultipartData.all()
-    mp_data_schema = MultipartDataSchema()
-    return jsonify([mp_data_schema.dump(mp_packet) for mp_packet in mp_packets])
-
-
-@app.route('/api/mp/packets/<int:id>/')
-def packets_mp_view(id):
-    mp_packet = MultipartData.get_by_id(id)
-    mp_data_schema = MultipartDataSchema()
-    return jsonify(mp_data_schema.dump(mp_packet))
-
-
-@app.route('/api/dtp/packets/<int:id>/')
-def packets_dtp_view(id):
+@app.route('/api/dp/<int:id>/')
+def packet_dp_view(id):
     data_packet = DataPacket.get_by_id(id)
     data_schema = DataPacketSchema()
     return jsonify(data_schema.dump(data_packet))
 
 
-@app.route('/api/packets/mp-full/')
-def packets_mp_full_list_view():
+@app.route('/api/mp/')
+def packet_list_mp_view():
     result = {}
     multipart_data = MultipartPacket.all()
     mp_packet_id = [data.id for data in multipart_data]
@@ -47,8 +47,8 @@ def packets_mp_full_list_view():
     return result
 
 
-@app.route('/api/packets/mp-full/<int:mp_packet_id>/')
-def packets_mp_full_detail_view(mp_packet_id):
+@app.route('/api/mp/<int:mp_packet_id>/')
+def packet_mp_view(mp_packet_id):
     mp_packets = MultipartData.filtered_by_idx(mp_packet_id)
     packet = [mp_packet.data for mp_packet in mp_packets]
     return {'MP_packet': ''.join(packet)}
