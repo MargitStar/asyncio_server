@@ -15,6 +15,7 @@ class Packet(Base):
     type = Column(String, nullable=False)
     timestamp = Column(DateTime, nullable=False)
     client_id = Column(Integer, nullable=False)
+    packet = relationship('DataPacket', back_populates='data_packet', uselist=False)
 
     def __str__(self):
         return self.packet
@@ -40,7 +41,7 @@ class DataPacket(Base):
     id = Column(Integer, primary_key=True)
     packet_id = Column(Integer, ForeignKey('packets.id'), nullable=False)
     data = Column(String, nullable=False)
-    packet = relationship('Packet')
+    data_packet = relationship('Packet', back_populates='packet')
 
     @classmethod
     def add(cls, data, packet):
@@ -48,6 +49,10 @@ class DataPacket(Base):
         session.add(data_packet)
         session.commit()
         return data_packet
+
+    @classmethod
+    def all(cls):
+        return session.query(cls).all()
 
 
 class MultipartPacket(Base):

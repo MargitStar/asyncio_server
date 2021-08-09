@@ -8,6 +8,7 @@ authors = ["MargitStar <sovenokbymargo@mail.ru>"]
 python = "^3.9"
 SQLAlchemy = "^1.4.22"
 psycopg2 = "^2.9.1"
+alembic = "^1.6.5"
 
 [tool.poetry.dev-dependencies]
 
