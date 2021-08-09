@@ -62,6 +62,7 @@ class MultipartPacket(Base):
     end_packet_id = Column(Integer, ForeignKey('packets.id'), nullable=False)
     start_packet = relationship('Packet', foreign_keys=[start_packet_id])
     end_packet = relationship('Packet', foreign_keys=[end_packet_id])
+    mp_data = relationship('MultipartData', back_populates='mp_packet')
 
     @classmethod
     def add(cls, start_packet, end_packet):
@@ -69,6 +70,10 @@ class MultipartPacket(Base):
         session.add(mp_data_packet)
         session.commit()
         return mp_data_packet
+
+    @classmethod
+    def all(cls):
+        return session.query(cls).all()
 
 
 class MultipartData(Base):
@@ -82,7 +87,7 @@ class MultipartData(Base):
     data = Column(String, nullable=False)
     idx = Column(Integer, nullable=False)
     packet = relationship('Packet')
-    mp_packet = relationship('MultipartPacket')
+    mp_packet = relationship('MultipartPacket', back_populates='mp_data')
 
     @classmethod
     def add(cls, data, idx, packet, mp_packet):
@@ -94,3 +99,7 @@ class MultipartData(Base):
     @classmethod
     def all(cls):
         return session.query(cls).all()
+
+    @classmethod
+    def filtered_by_idx(cls, mp_packet_id):
+        return session.query(cls).filter_by(mp_packet_id=mp_packet_id).all()

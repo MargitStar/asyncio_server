@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 
-from asyncio_db.models import Packet, DataPacket, MultipartData
+from asyncio_db.models import Packet, DataPacket, MultipartData, MultipartPacket
 from flask_application.utils import PacketSchema, DataPacketSchema, MultipartDataSchema
 
 
@@ -19,6 +19,13 @@ def packets_list_mp_view():
     mp_packets = MultipartData.all()
     mp_data_schema = MultipartDataSchema()
     return jsonify([mp_data_schema.dump(mp_packet) for mp_packet in mp_packets])
+
+
+@app.route('/api/packets/mp-full/<int:mp_packet_id>')
+def packets_mp_detail_view(mp_packet_id):
+    mp_packets = MultipartData.filtered_by_idx(mp_packet_id)
+    packet = [mp_packet.data for mp_packet in mp_packets]
+    return {'MP_packet': ''.join(packet)}
 
 
 @app.route('/api/client/<client_id>/packet')
