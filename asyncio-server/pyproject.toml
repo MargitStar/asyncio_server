@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "asyncio-server"
+version = "0.1.0"
+description = ""
+authors = ["MargitStar <sovenokbymargo@mail.ru>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+asyncio = "^3.4.3"
+pydantic = "^1.8.2"
+asyncio-db = {path = "../asyncio-db"}
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
