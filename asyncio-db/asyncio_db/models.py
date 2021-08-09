@@ -55,6 +55,10 @@ class DataPacket(Base):
     def all(cls):
         return session.query(cls).all()
 
+    @classmethod
+    def get_by_id(cls, id):
+        return session.query(cls).filter_by(id=id).first()
+
 
 class MultipartPacket(Base):
     __tablename__ = 'multipart_packets'
