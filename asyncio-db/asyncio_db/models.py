@@ -16,7 +16,7 @@ class Packet(Base):
     timestamp = Column(DateTime, nullable=False)
     client_id = Column(Integer, nullable=False)
     packet = relationship('DataPacket', back_populates='data_packet', uselist=False)
-
+    
     def __str__(self):
         return self.packet
 
@@ -86,7 +86,7 @@ class MultipartData(Base):
     packet_id = Column(Integer, ForeignKey('packets.id'), nullable=False)
     data = Column(String, nullable=False)
     idx = Column(Integer, nullable=False)
-    packet = relationship('Packet')
+    packet = relationship('Packet', back_populates='mp_packet')
     mp_packet = relationship('MultipartPacket', back_populates='mp_data')
 
     @classmethod
