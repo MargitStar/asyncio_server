@@ -90,3 +90,7 @@ class MultipartData(Base):
         session.add(mp_data_packet)
         session.commit()
         return mp_data_packet
+
+    @classmethod
+    def all(cls):
+        return session.query(cls).all()
