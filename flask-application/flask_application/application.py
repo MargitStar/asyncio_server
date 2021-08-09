@@ -20,11 +20,13 @@ def packets_list_mp_view():
     mp_data_schema = MultipartDataSchema()
     return jsonify([mp_data_schema.dump(mp_packet) for mp_packet in mp_packets])
 
+
 @app.route('/api/mp/packets/<int:id>/')
 def packets_mp_view(id):
     mp_packet = MultipartData.get_by_id(id)
     mp_data_schema = MultipartDataSchema()
     return jsonify(mp_data_schema.dump(mp_packet))
+
 
 @app.route('/api/packets/mp-full/')
 def packets_mp_full_list_view():
