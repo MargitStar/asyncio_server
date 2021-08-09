@@ -16,6 +16,7 @@ class Packet(Base):
     timestamp = Column(DateTime, nullable=False)
     client_id = Column(Integer, nullable=False)
     packet = relationship('DataPacket', back_populates='data_packet', uselist=False)
+    mp_packet = relationship('MultipartData', back_populates='packet')
     
     def __str__(self):
         return self.packet
@@ -103,3 +104,7 @@ class MultipartData(Base):
     @classmethod
     def filtered_by_idx(cls, mp_packet_id):
         return session.query(cls).filter_by(mp_packet_id=mp_packet_id).all()
+
+    @classmethod
+    def get_by_id(cls, id):
+        return session.query(cls).filter_by(id=id).first()

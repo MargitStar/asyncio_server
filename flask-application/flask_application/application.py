@@ -20,9 +20,14 @@ def packets_list_mp_view():
     mp_data_schema = MultipartDataSchema()
     return jsonify([mp_data_schema.dump(mp_packet) for mp_packet in mp_packets])
 
+@app.route('/api/mp/packets/<int:id>/')
+def packets_mp_view(id):
+    mp_packet = MultipartData.get_by_id(id)
+    mp_data_schema = MultipartDataSchema()
+    return jsonify(mp_data_schema.dump(mp_packet))
 
 @app.route('/api/packets/mp-full/')
-def packets_mp_view():
+def packets_mp_full_list_view():
     result = {}
     multipart_data = MultipartPacket.all()
     mp_packet_id = [data.id for data in multipart_data]
@@ -34,7 +39,7 @@ def packets_mp_view():
 
 
 @app.route('/api/packets/mp-full/<int:mp_packet_id>')
-def packets_mp_detail_view(mp_packet_id):
+def packets_mp_full_detail_view(mp_packet_id):
     mp_packets = MultipartData.filtered_by_idx(mp_packet_id)
     packet = [mp_packet.data for mp_packet in mp_packets]
     return {'MP_packet': ''.join(packet)}
