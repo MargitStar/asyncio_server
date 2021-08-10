@@ -1,4 +1,5 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, make_response
+from werkzeug.wrappers import response
 
 from asyncio_db.models import Packet, DataPacket, MultipartData, MultipartPacket
 from flask_application.utils import PacketSchema, DataPacketSchema, MultipartDataSchema
@@ -52,6 +53,17 @@ def packet_mp_view(mp_packet_id):
     mp_packets = MultipartData.filtered_by_idx(mp_packet_id)
     packet = [mp_packet.data for mp_packet in mp_packets]
     return {'MP_packet': ''.join(packet)}
+
+
+@app.route('/api/mp/<int:mp_packet_id>/download/')
+def download_mp_view(mp_packet_id):
+    mp_packets = MultipartData.filtered_by_idx(mp_packet_id)
+    packet = [mp_packet.data for mp_packet in mp_packets]
+    response = make_response({'MP_packet': ''.join(packet)})
+    response.headers.set('Content-Type', 'application/octet-stream')
+    response.headers.set(
+        'Content-Disposition', 'attachment', filename='file.txt' )
+    return response
 
 
 @app.route('/api/client/<client_id>/packet/')
