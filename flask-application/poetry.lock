@@ -204,6 +204,17 @@ pymysql = ["pymysql (<1)", "pymysql"]
 sqlcipher = ["sqlcipher3-binary"]
 
 [[package]]
+name = "url"
+version = "0.4.2"
+description = "URL Parsing"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+six = "*"
+
+[[package]]
 name = "werkzeug"
 version = "2.0.1"
 description = "The comprehensive WSGI web application library."
@@ -217,7 +228,7 @@ watchdog = ["watchdog"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "93e051fa0f476399619ed9d6d4818fe6ca85df1ef8a496fd1c92311d77bef5a0"
+content-hash = "254fcdc89e06511ffdcd79cea9279bb9c0817b6b0cc74bda2ef9f29d3dfef300"
 
 [metadata.files]
 alembic = [
@@ -398,6 +409,9 @@ sqlalchemy = [
     {file = "SQLAlchemy-1.4.22-cp39-cp39-win32.whl", hash = "sha256:b48148ceedfb55f764562e04c00539bb9ea72bf07820ca15a594a9a049ff6b0e"},
     {file = "SQLAlchemy-1.4.22-cp39-cp39-win_amd64.whl", hash = "sha256:1fdae7d980a2fa617d119d0dc13ecb5c23cc63a8b04ffcb5298f2c59d86851e9"},
     {file = "SQLAlchemy-1.4.22.tar.gz", hash = "sha256:ec1be26cdccd60d180359a527d5980d959a26269a2c7b1b327a1eea0cab37ed8"},
+]
+url = [
+    {file = "url-0.4.2.tar.gz", hash = "sha256:8c6e4a117bfc15664319d8babca016b60dcd84c158729c1fbd309609083697b0"},
 ]
 werkzeug = [
     {file = "Werkzeug-2.0.1-py3-none-any.whl", hash = "sha256:6c1ec500dcdba0baa27600f6a22f6333d8b662d22027ff9f6202e3367413caa8"},

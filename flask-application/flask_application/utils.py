@@ -22,7 +22,4 @@ class MultipartPacketScema(Schema):
 
 class MultipartDataSchema(Schema):
     id = fields.Int()
-    data = fields.Str()
-    idx = fields.Int()
-    packet = fields.Nested(PacketSchema)
-    mp_packet = fields.Nested(MultipartPacketScema)
+    download = fields.Url()
