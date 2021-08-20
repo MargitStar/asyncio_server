@@ -1,8 +1,25 @@
 from marshmallow import Schema, fields
 
-class PacketShema(Schema):
+
+class PacketSchema(Schema):
     id = fields.Int()
-    packet = fields.Str()
+    type = fields.Str()
     timestamp = fields.DateTime()
     client_id = fields.Str()
 
+
+class DataPacketSchema(Schema):
+    id = fields.Int()
+    data_packet = fields.Nested(PacketSchema)
+    data = fields.Str()
+
+
+class MultipartPacketScema(Schema):
+    id = fields.Int()
+    start_packet_id = fields.Int()
+    end_packet_id = fields.Int()
+
+
+class MultipartDataSchema(Schema):
+    id = fields.Int()
+    download = fields.Url()
